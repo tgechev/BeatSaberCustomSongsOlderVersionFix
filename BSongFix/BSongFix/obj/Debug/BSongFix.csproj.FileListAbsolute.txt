@@ -1,0 +1,10 @@
+D:\MTAP6\BSongFix\BSongFix\bin\Debug\BSongFix.exe.config
+D:\MTAP6\BSongFix\BSongFix\bin\Debug\BSongFix.exe
+D:\MTAP6\BSongFix\BSongFix\bin\Debug\BSongFix.pdb
+D:\MTAP6\BSongFix\BSongFix\bin\Debug\Newtonsoft.Json.dll
+D:\MTAP6\BSongFix\BSongFix\bin\Debug\Newtonsoft.Json.xml
+D:\MTAP6\BSongFix\BSongFix\obj\Debug\BSongFix.csprojAssemblyReference.cache
+D:\MTAP6\BSongFix\BSongFix\obj\Debug\BSongFix.csproj.CoreCompileInputs.cache
+D:\MTAP6\BSongFix\BSongFix\obj\Debug\BSongFix.csproj.CopyComplete
+D:\MTAP6\BSongFix\BSongFix\obj\Debug\BSongFix.exe
+D:\MTAP6\BSongFix\BSongFix\obj\Debug\BSongFix.pdb
