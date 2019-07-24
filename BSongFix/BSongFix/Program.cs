@@ -39,7 +39,7 @@ namespace BSongFix
 
         class OldDifLevel
         {
-            public string difficulty = "", audioPath = "", jsonPath = "";
+            public string difficulty = "", audioPath = "", levelPath = "";
             public double offset = 0, difficultyRank = 0;
         }
 
@@ -109,12 +109,9 @@ namespace BSongFix
             public Obstacle[] _obstacles;
             public string[] _bookmarks;
         }
-        
-
+       
         static void Main(string[] args)
         {
-
-            //Console.WriteLine(Path.GetFileNameWithoutExtension("\\Expert.dat"));
             JSONInfo fileInfo = new JSONInfo();
 
             string info = "\\info.dat";
@@ -142,13 +139,13 @@ namespace BSongFix
             fileInfo.environmentName = deserializedDATInfo._environmentName;
             fileInfo.difficultyLevels = new OldDifLevel[levels.Length];
 
+            string audioFilePath = args[0] + "\\" + deserializedDATInfo._songFilename;
+            string newAudioPath = Path.ChangeExtension(audioFilePath, ".ogg");
+            File.Move(audioFilePath, newAudioPath);
+
             for (int i = 0; i < levels.Length; i++)
             {
-                //Console.WriteLine("Current index: " + i);
-                string songPath = deserializedDATInfo._songFilename;
-                string jsonPath = levels[i]._beatmapFilename;
-                jsonPath = Path.ChangeExtension(jsonPath, ".json");
-                songPath = Path.ChangeExtension(songPath, ".ogg");
+                string levelPath = args[0] + "\\" + levels[i]._beatmapFilename;
 
                 if (fileInfo.difficultyLevels[i] == null)
                 {
@@ -157,24 +154,10 @@ namespace BSongFix
 
                 fileInfo.difficultyLevels[i].difficulty = levels[i]._difficulty;
                 fileInfo.difficultyLevels[i].difficultyRank = levels[i]._difficultyRank;
-                fileInfo.difficultyLevels[i].audioPath = songPath;
-                fileInfo.difficultyLevels[i].jsonPath = jsonPath;
+                fileInfo.difficultyLevels[i].audioPath = Path.GetFileName(newAudioPath);
+                fileInfo.difficultyLevels[i].levelPath = Path.GetFileName(levelPath);
                 fileInfo.difficultyLevels[i].offset = levels[i]._noteJumpStartBeatOffset;
-            }
 
-            string json = JsonConvert.SerializeObject(fileInfo);
-            string savePath = Path.ChangeExtension(args[0] + info, ".json");
-
-            using (StreamWriter sw = new StreamWriter(savePath))
-            {
-                sw.Write(json);
-            }
-
-            int j = levels.Length - 1;
-            while (j >= 0)
-            {
-                //Console.WriteLine("While index: " + j);
-                string levelPath = args[0] + "\\" + levels[j]._beatmapFilename;
                 if (File.Exists(levelPath))
                 {
                     string difName = Path.GetFileNameWithoutExtension(levelPath);
@@ -202,13 +185,7 @@ namespace BSongFix
                     jsonFile._notes = deserializedDATLevel._notes;
                     jsonFile._obstacles = deserializedDATLevel._obstacles;
                     jsonFile._bookmarks = deserializedDATLevel._bookmarks;
-                    for (int i = 0; i < levels.Length; i++)
-                    {
-                        if (levels[i]._difficulty == difName)
-                        {
-                            jsonFile._noteJumpSpeed = levels[i]._noteJumpMovementSpeed;
-                        }
-                    }
+                    jsonFile._noteJumpSpeed = levels[i]._noteJumpMovementSpeed;
 
                     string jsonLevel2Write = JsonConvert.SerializeObject(jsonFile);
                     levelPath = Path.ChangeExtension(levelPath, ".json");
@@ -217,18 +194,16 @@ namespace BSongFix
                     {
                         sw.Write(jsonLevel2Write);
                     }
-
-
                 }
-
-                j--;
             }
 
-            string audioFilePath = args[0] + "\\" + deserializedDATInfo._songFilename;
-            File.Move(audioFilePath, Path.ChangeExtension(audioFilePath, ".ogg"));
+            string json = JsonConvert.SerializeObject(fileInfo);
+            string savePath = Path.ChangeExtension(args[0] + info, ".json");
 
-
-
+            using (StreamWriter sw = new StreamWriter(savePath))
+            {
+                sw.Write(json);
+            }
         }
     }
 }
