@@ -39,7 +39,7 @@ namespace BSongFix
 
         class OldDifLevel
         {
-            public string difficulty = "", audioPath = "", levelPath = "";
+            public string difficulty = "", audioPath = "", jsonPath = "";
             public double offset = 0, difficultyRank = 0;
         }
 
@@ -155,7 +155,7 @@ namespace BSongFix
                 fileInfo.difficultyLevels[i].difficulty = levels[i]._difficulty;
                 fileInfo.difficultyLevels[i].difficultyRank = levels[i]._difficultyRank;
                 fileInfo.difficultyLevels[i].audioPath = Path.GetFileName(newAudioPath);
-                fileInfo.difficultyLevels[i].levelPath = Path.GetFileName(levelPath);
+                fileInfo.difficultyLevels[i].jsonPath = Path.ChangeExtension(Path.GetFileName(levelPath), ".json");
                 fileInfo.difficultyLevels[i].offset = levels[i]._noteJumpStartBeatOffset;
 
                 if (File.Exists(levelPath))
